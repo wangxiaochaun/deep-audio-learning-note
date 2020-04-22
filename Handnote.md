@@ -34,7 +34,10 @@
 
 ### 3rd Party Lib
 
-**soundfile**
+>[soundfile](#soundfile)|[LibROSA](#LibROSA)
+
+#### soundfile
+
 >跨平台的音频读写包
 >
 >`pip/conda install soundfile`, Linux可能需要 `apt-get install libsndfile1`
@@ -63,15 +66,47 @@ data, samplerate = sf.read(io.BytesIO(urlopen(url).read()))
 ```
 > 有可能出现写OGG文件为空的情况
 
+#### LibROSA
+
+>音乐和音频分析python包
+>
+>**Install**:`pip conda install librosa` or `conda install -c conda-forge librosa`
+>
+>*Windows*需要另外安装*ffmpeg*来支持更多的音频格式
+>
+>**CoreIO and DSP**：包括音频处理(`load`,`resample`,`zero_crossings`)，谱表示(`stft`,`istft`,`cqt`,`icqt`),幅度变换(`amplitude_to_db`,`db_to_power`),时域与频域转换(`frames_to_samples`,`frames_to_time`,`samples_to_frames`),音高与调音
+
+
 
 ## 知识体系
+>#### [音频格式](#音频格式)|
 
+### 音频格式
 
+**采样频率**：1秒钟采样次数，大部分采样频率是44.1KHz
+**采样位数（位深，精度，比特）**：类似图像的位数，CD音频是16bit
+**比特率（音频位速，码率）**：单位时间内传送的比特数bps
+
+```matlab
+CD音频比特率 = 44.1KHz * 16bit * 2 channels = 1411.2Kbps
+```
+>16bit/44.1KHz是CD音频的采样
+>
+>24bit/48KHz是DVD音频的采样
+>
+>24bit/192KHz是蓝光中音频的采样
 
 ## 数学
+>#### [STFT](#STFT)|[CQT](#CQT)
+
 
 
 ## 传统特征
+>#### [色度特征](#色度特征)|
+
+### 色度特征
+
+色度特征是色度向量（Chroma vector）和色度谱（Chromagram）的统称。色度向量是一个含有12个元素的向量，这些元素分别代表一段时间（如1帧）内12个音级中的能量，不同八度（音高，pitch）的同一音级能量累加，色度图谱则是色度向量的序列（时间扩展）。
 
 
 
