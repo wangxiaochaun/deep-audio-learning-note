@@ -10,7 +10,7 @@
 
  ## 有用的工具
 
- >#### [语音数据集](#语音数据集)|[奇怪的网站](#奇怪的网站)|[开发环境](#开发环境)|[3rd Party Lib](#3rd Party Lib)
+ >#### [语音数据集](#语音数据集)|[奇怪的网站](#奇怪的网站)|[开发环境](#开发环境)|[第三方库](#第三方库)
 
  ### 语音数据集
 
@@ -32,7 +32,7 @@
 | VS Code  | 万金油IDE+Text Editor，PyCharm coomunity无法使用版本控制后的github最佳选择之一|
 | Xshell/Xftp | 远程服务器管理工具，可以支持本地tensorboard|
 
-### 3rd Party Lib
+### 第三方库
 
 >[soundfile](#soundfile)|[LibROSA](#LibROSA)
 
@@ -74,8 +74,11 @@ data, samplerate = sf.read(io.BytesIO(urlopen(url).read()))
 >
 >*Windows*需要另外安装*ffmpeg*来支持更多的音频格式
 >
+>Note：LibROSA有很大一部分module和function是为music processing and analysis服务的
+
 >**CoreIO and DSP**：包括音频处理(`load`,`resample`,`zero_crossings`)，谱表示(`stft`,`istft`,`cqt`,`icqt`),幅度变换(`amplitude_to_db`,`db_to_power`),时域与频域转换(`frames_to_samples`,`frames_to_time`,`samples_to_frames`),音高与调音
 
+[Example for LibROSA](https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/code/test_librosa.py)
 
 
 ## 知识体系

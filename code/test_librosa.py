@@ -35,6 +35,46 @@ def advanced_sample():
     duration = librosa.get_duration(y=y)
     print('duration:{:.2f} seconds'.format(duration))
 
+    # stft
+    # 参数:
+    # n_fft:加窗后的信号padding with zeros，推荐2的幂（加速
+    # hop_length: 帧移，一般是窗函数长的四分之一
+    # win_length <= n_fft:窗函数长度，时域分辨率和频域分辨率的权衡
+    # window: 窗函数，来自scipy，默认是hanning窗
+    # center:帧的中心是center还是left
+    # dtype: 矩阵D的精度
+    # pad_mode：reflect，etc.
+    # 返回复数矩阵D
+    # np.abs(D[f,t])是频带f，帧t的幅值
+    # np.angle(D[f,t])是频带f，帧t的相位
+    D = np.abs(librosa.stft(y))
+    print(np.shape(D)) # [#1+n_fft/2 , #分帧数]
+
+    # Display a spectogram
+    plt.figure()
+    librosa.display.specshow(librosa.amplitude_to_db(D, ref=np.max),
+                             y_axis='log', x_axis='time')
+    plt.title('Power spectrogram')
+    plt.colorbar(format='%+2.0f dB')
+    plt.tight_layout()
+    plt.show()
+
+
+
+def feature_sample():
+    y, sr = librosa.load(librosa.util.example_audio_file())
+
+    # 计算音频时间序列的过零率
+    # frame_length: 帧长
+    # hop_length: 帧移
+    # center: 统计时使帧居中，时间序列的边缘则进行填充
+    zero_crossings = librosa.feature.zero_crossing_rate(y,
+                                                        frame_length=2048,
+                                                        hop_length=512,
+                                                        center=True)
+    # 返回：第i帧的过零率
+    print(zero_crossings) # [1, #分帧数]
+
     # Set the hop length; at 22050 Hz, 512 samples ~= 23ms
     hop_length = 512
 
