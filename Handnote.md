@@ -100,8 +100,7 @@ data, samplerate = sf.read(io.BytesIO(urlopen(url).read()))
 
 [Example for Sounddevice](https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/code/test_sounddevice.py)
 
-<iframe name="music" src="https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/media/finalfantasy.wav" marginwidth="1px" marginheight="20px" width=100% height="80px" frameborder=1 　scrolling="yes">
-</iframe>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=34274418&auto=0&height=66"></iframe>
 
 
 ## 知识体系
