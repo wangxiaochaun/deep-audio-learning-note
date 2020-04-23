@@ -34,7 +34,7 @@
 
 ### 第三方库
 
->[soundfile](#soundfile)|[LibROSA](#LibROSA)
+>[soundfile](#soundfile)|[LibROSA](#LibROSA)|[Sounddevice](#Sounddevice)
 
 #### soundfile
 
@@ -68,7 +68,9 @@ data, samplerate = sf.read(io.BytesIO(urlopen(url).read()))
 
 #### LibROSA
 
-<img src="https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/media/mel_filter_bank.png" width="50%" height="50%" alt="Mel filter bank example" title="Mel filter bank example" align="right" />
+<img src="https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/media/mel_filter_bank.png" width="50%" height="50%" alt="Mel滤波器组示意图" title="Mel滤波器组示意图" align="right" />
+
+<img src="https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/media/log_mel_spectrogram.png" width="50%" height="50%" alt="Log-Mel功率谱示意图" title="Log-Mel功率谱示意图" align="right" />
 
 >音乐和音频分析python包
 >
@@ -89,6 +91,14 @@ data, samplerate = sf.read(io.BytesIO(urlopen(url).read()))
 
 [Example for LibROSA](https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/code/test_librosa.py)
 
+
+#### Sounddevice
+
+>sounddevice是一个与Numpy兼容的录音以及播放声音的包
+>
+>主要功能是播放和录音，以及一些交互式控制音频设备的方法
+
+[Example for Sounddevice](https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/code/test_sounddevice.py)
 
 ## 知识体系
 >#### [音频格式](#音频格式)|

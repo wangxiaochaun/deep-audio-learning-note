@@ -167,6 +167,13 @@ def mel_spectrogram_sample2():
     plt.show()
 
 
+def mfcc_sample():
+    # 提取mfcc系数
+    y, sr = librosa.load(librosa.util.example_audio_file())
+    mfccs = librosa.feature.mfcc(y, sr=sr, n_mfcc=40)
+    print(mfccs.shape) # [n_mfcc, # 分帧数]
+
+
 def feature_sample():
     y, sr = librosa.load(librosa.util.example_audio_file())
 
@@ -228,4 +235,4 @@ def feature_sample():
 if __name__=='__main__':
 
     # sample()
-    mel_spectrogram_sample2()
+    mfcc_sample()
