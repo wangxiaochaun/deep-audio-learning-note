@@ -68,6 +68,8 @@ data, samplerate = sf.read(io.BytesIO(urlopen(url).read()))
 
 #### LibROSA
 
+<img src="https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/media/mel_filter_bank.png" width="50%" height="50%" alt="Mel filter bank example" title="Mel filter bank example" align="right" />
+
 >音乐和音频分析python包
 >
 >**Install**:`pip conda install librosa` or `conda install -c conda-forge librosa`
@@ -84,7 +86,6 @@ data, samplerate = sf.read(io.BytesIO(urlopen(url).read()))
 >
 ><font color=Green>*TODO待补完*</font>
 
-<img src="https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/media/mel_filter_bank.png" alt="Mel filter bank example" title="Mel filter bank example" align="right" />
 
 [Example for LibROSA](https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/code/test_librosa.py)
 
