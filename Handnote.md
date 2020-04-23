@@ -77,6 +77,12 @@ data, samplerate = sf.read(io.BytesIO(urlopen(url).read()))
 >Note：LibROSA有很大一部分module和function是为music processing and analysis服务的
 
 >**CoreIO and DSP**：包括音频处理(`load`,`resample`,`zero_crossings`)，谱表示(`stft`,`istft`,`cqt`,`icqt`),幅度变换(`amplitude_to_db`,`db_to_power`),时域与频域转换(`frames_to_samples`,`frames_to_time`,`samples_to_frames`),音高与调音
+>
+>**Display**：可视化功率谱、波形图等(`specshow`,`waveplot`)
+>
+>**Feature extraction**：梅尔功率谱图(`melspectrogram`)、mfcc(`mfcc`)、过零率(`zero_crossing_rate`)、特征转换(`inverse.mel_to_stft`,`inverse.mfcc_to_mel`)等
+>
+><font color=Green>*TODO待补完*</font>
 
 [Example for LibROSA](https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/code/test_librosa.py)
 
