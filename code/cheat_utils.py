@@ -15,7 +15,7 @@ def audio_wave():
     CHUNK = 1024
 
 
-    wf = wave.open('..\\media\\finalfantasy.wav', 'rb')
+    wf = wave.open('./media/finalfantasy.wav', 'rb') # shell
 
     # 创建播放器
     p = pyaudio.PyAudio()
