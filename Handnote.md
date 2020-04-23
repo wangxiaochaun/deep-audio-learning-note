@@ -100,7 +100,7 @@ data, samplerate = sf.read(io.BytesIO(urlopen(url).read()))
 
 [Example for Sounddevice](https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/code/test_sounddevice.py)
 
-<embed src="//music.163.com/style/swf/widget.swf?sid=34274418&type=2&auto=1&width=320&height=66" width="340" height="86"  allowNetworking="all"></embed>
+[\~悠久之风\~](https://music.163.com/#/song?id=34274418)
 
 
 ## 知识体系
