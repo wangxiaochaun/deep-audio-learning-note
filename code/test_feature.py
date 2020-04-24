@@ -42,6 +42,7 @@ def extract_feature(file_name=None):
 
     # spectral contrast
     contrast = np.mean(librosa.feature.spectral_contrast(S=stft, sr=sample_rate).T, axis=0)
+    
 
 
 if __name__=='__main__':
