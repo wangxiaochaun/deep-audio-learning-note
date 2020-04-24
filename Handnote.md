@@ -94,6 +94,8 @@ data, samplerate = sf.read(io.BytesIO(urlopen(url).read()))
 
 #### Sounddevice
 
+<img src="https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/media/wave.gif" width="50%" height="50%" alt="悠久之风" title="悠久之风" align="right" />
+
 >sounddevice是一个与Numpy兼容的录音以及播放声音的包
 >
 >主要功能是播放和录音，以及一些交互式控制音频设备的方法
