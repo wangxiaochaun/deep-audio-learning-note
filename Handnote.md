@@ -163,17 +163,18 @@ mel = np.mean(librosa.feature.melspectrogram(X, sr=sample_rate).T, axis=0)
 
 计算谱对比度(spectral contrast)[<sup>[1]</sup>](#ref_1)
 
-声谱图（spectrogram）S对应的每个分帧被分为子带（sub-bands）。对每个子带，比较top quantile（peak energy）的mean energyt与bottom quantile（valley energy）的平均能量。High contrast值一般对应clear，narrow-band信号，low contrast值对应broad-band噪声
+声谱图（spectrogram）S对应的每个分帧被分为子带（sub-bands）。对每个子带，比较top quantile（peak energy）的mean energyt与bottom quantile（valley energy）的平均能量。High contrast值一般对应clear，narrow-band信号，low contrast值对应broad-band噪声。
 
-<font size=2><div id="ref_1"></div>
+><font size=2><div id="ref_1"></div>
 [1] Jiang, Dan-Ning, Lie Lu, Hong-Jiang Zhang, Jian-Hua Tao, and Lian-Hong Cai. “Music type classification by spectral contrast feature.” In Multimedia and Expo, 2002. ICME‘02. Proceedings. 2002 IEEE International Conference on, vol. 1, pp. 113-116. IEEE, 2002.</font>
 
 ```python
 librosa.feature.spectral_contrast(y=None, sr=22050, S=None, n_fft=2048,
 hop_length=512, win_length=None, window='hann', center=True, pad_mode='reflect',
 freq=None, fmin=200.0, n_bands=6, quantile=0.02, linear=False)
+
+# Return: contrast.ndarray[shape=(n_band+1, t)]
 ```
-> Return: `contrast.ndarray[shape=(n_band+1, t)]`
 
 ### Tonnetz
 
