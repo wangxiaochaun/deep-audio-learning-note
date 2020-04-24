@@ -129,11 +129,43 @@ CD音频比特率 = 44.1KHz * 16bit * 2 channels = 1411.2Kbps
 
 
 ## 传统特征
->#### [色度特征](#色度特征)|
+>#### [色度特征](#色度特征)|[mfcc](#mfcc)|[chroma](#chroma)|[Mel](#Mel)|[Contrast](#Contrast)|[Tonnetz](#Tonnetz)
 
 ### 色度特征
 
 色度特征是色度向量（Chroma vector）和色度谱（Chromagram）的统称。色度向量是一个含有12个元素的向量，这些元素分别代表一段时间（如1帧）内12个音级中的能量，不同八度（音高，pitch）的同一音级能量累加，色度图谱则是色度向量的序列（时间扩展）。
+
+```python
+import librosa
+import numpy as np
+# chroma
+# 沿着分帧的维度取均值，最终向量是12维
+chroma = np.mean(librosa.feature.chroma_stft(S=stft, sr=sample_rate).T, axis=0)
+```
+
+### mfcc
+
+>TODO
+
+```python
+mfccs = np.mean(librosa.feature.mfcc(y=X, sr=sample_rate, n_mfcc=40).T, axis=0)
+```
+
+### Mel
+
+梅尔频谱
+
+```python
+mel = np.mean(librosa.feature.melspectrogram(X, sr=sample_rate).T, axis=0)
+```
+
+### Contrast
+
+
+
+### Tonnetz
+
+
 
 
 
