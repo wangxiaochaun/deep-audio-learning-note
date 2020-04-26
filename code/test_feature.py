@@ -104,10 +104,18 @@ def test_melspectrogram():
     plt.show()
 
 
-    
+def test_mfcc():
+    y, sr = librosa.load("..\\media\\example.wav")
+    mfccs = librosa.feature.mfcc(y=y, sr=sr)
+    plt.figure(figsize=(10, 4))
+    librosa.display.specshow(mfccs, x_axis='time')
+    plt.colorbar()
+    plt.title('MFCC')
+    plt.tight_layout()
+    plt.show()
 
 
 if __name__=='__main__':
     # extract_feature('..\\media\\example.wav')
     # test_spectrogram()
-    test_melspectrogram()
+    test_mfcc()

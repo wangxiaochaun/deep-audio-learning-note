@@ -129,7 +129,7 @@ CD音频比特率 = 44.1KHz * 16bit * 2 channels = 1411.2Kbps
 
 
 ## 传统特征
->###### [短时时频域特征](#短时时频域特征)|[色度特征](#色度特征)|[mfcc](#mfcc)|[chroma](#chroma)|[Mel](#Mel)|[Contrast](#Contrast)|[Tonnetz](#Tonnetz)
+>###### [短时时频域特征](#短时时频域特征)|[色度特征](#色度特征)|[mfcc](#mfcc)|[Mel](#Mel)|[Contrast](#Contrast)|[Tonnetz](#Tonnetz)
 
 ### 短时时频域特征
 
@@ -152,12 +152,27 @@ chroma = np.mean(librosa.feature.chroma_stft(S=stft, sr=sample_rate).T, axis=0)
 
 ### mfcc
 
->TODO
+梅尔倒谱系数是倒谱分析的一种。在梅尔频谱上做倒谱分析（取对数，做dct变换）
 
+<img src="https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/media/mfcc.png" width="50%" height="50%" alt="MFCC" title="MFCC" align="right" />
+
+```python
+librosa.feature.mfcc(y=None, sr=22050, S=None, n_mfcc=20,
+dct_type=2, norm='ortho', lifter=0, **kwargs)
+
+# 既可以输入时序信号y，也可以输入log-power Mel频谱图S
+# 这里的S就是
+# S = librosa.feature.melspectrogram(y)
+# S = librosa.power_to_db(S)
+```
+
+> cepstral -spectral “倒”谱
 
 ### Mel频谱图
 
 声谱图往往是很大的一张图，为了得到合适大小的声音特征，往往把它通过梅尔标度滤波器组（Mel-scale filter banks）变换为梅尔频谱（Mel-spectrogram)。
+
+<img src="https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/media/mel_spectrogram.png" width="50%" height="50%" alt="梅尔声谱图" title="梅尔声谱图" align="right" />
 
 - 梅尔标度（Mel scale）：通过观察人耳对声音频率变换的感知特性，将普通的频率标度转换为梅尔频率标度:
 
@@ -181,8 +196,6 @@ S = librosa.feature.melspectrogram(S=D, sr=sr)
 ```python
 S = librosa.feature.melspectrogram(y=y, sr=sr, ...)
 ```
-
-<img src="https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/media/mel_spectrogram.png" width="50%" height="50%" alt="梅尔声谱图" title="梅尔声谱图" align="right" />
 
 ### Contrast
 
