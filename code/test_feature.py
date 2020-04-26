@@ -2,7 +2,7 @@
 # author: wangx
 # date: 2020-04-24
 
-import numpy as np 
+import numpy as np
 import librosa
 import librosa.display
 import soundfile as sf
@@ -59,7 +59,7 @@ def extract_feature(file_name=None):
 
     # print(tonnetz.shape)
 
-    return mfccs, chroma, mel, contrast, tonnetz
+    return mfccs, chroma, mel, contrast, tonnetz # 40+12+128+7+6=193
 
 
 
@@ -118,4 +118,4 @@ def test_mfcc():
 if __name__=='__main__':
     # extract_feature('..\\media\\example.wav')
     # test_spectrogram()
-    test_mfcc()
+    # test_mfcc()
