@@ -152,9 +152,9 @@ chroma = np.mean(librosa.feature.chroma_stft(S=stft, sr=sample_rate).T, axis=0)
 
 ### mfcc
 
-梅尔倒谱系数是倒谱分析的一种。在梅尔频谱上做倒谱分析（取对数，做dct变换）
-
 <img src="https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/media/mfcc.png" width="50%" height="50%" alt="MFCC" title="MFCC" align="right" />
+
+梅尔倒谱系数是倒谱分析的一种。在梅尔频谱上做倒谱分析（取对数，做dct变换）
 
 ```python
 librosa.feature.mfcc(y=None, sr=22050, S=None, n_mfcc=20,
