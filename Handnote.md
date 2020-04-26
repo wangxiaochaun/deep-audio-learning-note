@@ -165,6 +165,16 @@ mel = np.mean(librosa.feature.melspectrogram(X, sr=sample_rate).T, axis=0)
 
 声谱图（spectrogram）S对应的每个分帧被分为子带（sub-bands）。对每个子带，比较top quantile（peak energy）的mean energyt与bottom quantile（valley energy）的平均能量。High contrast值一般对应clear，narrow-band信号，low contrast值对应broad-band噪声。
 
+>Spectral contrast相较MFCC，保留了更多子带信息（MFCC是roughly的平均）
+
+- 原始Spectral Contrast特征估计
+
+对原始音频分帧，每个分帧做STFT，然后分为若干子带（一般是6个，对应librosa里面的```n_bands=6```）。在每个子带内，估计Peak和Valley（一般是把FFT幅值排序，然后选择最大的几个(这个通过一个比例因子来确定从总数为N的FFT幅值中选$ \alpha \times N $个，$ \alpha $对应librosa里面的```quantile=0.02```)，取log均值作为Peak值；类似得到Valley值），然后计算差值$ SC_{k}=Peak_{k}-Valley_{k} $。最后将$ \{SC_{k}, Valley_{k}\} $作为原始Spectral Contrast特征。
+
+- Karhunen-Loeve Transform
+
+KL变换的目的是去掉不同维度之间的相关性。通过在训练集上找到一个正交基，将提取的Spectral Constrast特征投影，得到不相关的特征向量。
+
 ><font size=2><div id="ref_1"></div>
 [1] Jiang, Dan-Ning, Lie Lu, Hong-Jiang Zhang, Jian-Hua Tao, and Lian-Hong Cai. “Music type classification by spectral contrast feature.” In Multimedia and Expo, 2002. ICME‘02. Proceedings. 2002 IEEE International Conference on, vol. 1, pp. 113-116. IEEE, 2002.</font>
 
