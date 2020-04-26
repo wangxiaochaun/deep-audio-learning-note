@@ -10,7 +10,7 @@
 
  ## 有用的工具
 
- >#### [语音数据集](#语音数据集)|[奇怪的网站](#奇怪的网站)|[开发环境](#开发环境)|[第三方库](#第三方库)
+ >###### [语音数据集](#语音数据集)|[奇怪的网站](#奇怪的网站)|[开发环境](#开发环境)|[第三方库](#第三方库)
 
  ### 语音数据集
 
@@ -82,9 +82,9 @@ data, samplerate = sf.read(io.BytesIO(urlopen(url).read()))
 
 >**CoreIO and DSP**：包括音频处理(`load`,`resample`,`zero_crossings`)，谱表示(`stft`,`istft`,`cqt`,`icqt`),幅度变换(`amplitude_to_db`,`db_to_power`),时域与频域转换(`frames_to_samples`,`frames_to_time`,`samples_to_frames`),音高与调音
 >
->**Display**：可视化功率谱、波形图等(`specshow`,`waveplot`)
+>**Display**：可视化频谱谱、波形图等(`specshow`,`waveplot`)
 >
->**Feature extraction**：梅尔功率谱图(`melspectrogram`)、mfcc(`mfcc`)、过零率(`zero_crossing_rate`)、特征转换(`inverse.mel_to_stft`,`inverse.mfcc_to_mel`)等
+>**Feature extraction**：梅尔频谱图(`melspectrogram`)、mfcc(`mfcc`)、过零率(`zero_crossing_rate`)、特征转换(`inverse.mel_to_stft`,`inverse.mfcc_to_mel`)等
 >
 ><font color=Green>*TODO待补完*</font>
 
@@ -106,7 +106,7 @@ data, samplerate = sf.read(io.BytesIO(urlopen(url).read()))
 
 
 ## 知识体系
->#### [音频格式](#音频格式)|
+>###### [音频格式](#音频格式)|
 
 ### 音频格式
 
@@ -129,7 +129,14 @@ CD音频比特率 = 44.1KHz * 16bit * 2 channels = 1411.2Kbps
 
 
 ## 传统特征
->#### [色度特征](#色度特征)|[mfcc](#mfcc)|[chroma](#chroma)|[Mel](#Mel)|[Contrast](#Contrast)|[Tonnetz](#Tonnetz)
+>###### [短时时频域特征](#短时时频域特征)|[色度特征](#色度特征)|[mfcc](#mfcc)|[chroma](#chroma)|[Mel](#Mel)|[Contrast](#Contrast)|[Tonnetz](#Tonnetz)
+
+### 短时时频域特征
+
+短时时频域分析基于短时傅里叶变换（STFT）。把长信号分帧、加窗，再对每一帧做傅里叶变换（FFT），最后把每一帧的结果沿另一个维度（声音信号对应就是时间）堆叠起来，得到类似一幅图的二维信号形式。对应声音信号就是声谱图（spectrogram）[<sub>source</sub>](https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/code/test_feature.py)
+
+<img src="https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/media/spectrogram.png" width="50%" height="50%" alt="声谱图" title="声谱图" align="right" />
+
 
 ### 色度特征
 
@@ -147,17 +154,35 @@ chroma = np.mean(librosa.feature.chroma_stft(S=stft, sr=sample_rate).T, axis=0)
 
 >TODO
 
+
+### Mel频谱图
+
+声谱图往往是很大的一张图，为了得到合适大小的声音特征，往往把它通过梅尔标度滤波器组（Mel-scale filter banks）变换为梅尔频谱（Mel-spectrogram)。
+
+- 梅尔标度（Mel scale）：通过观察人耳对声音频率变换的感知特性，将普通的频率标度转换为梅尔频率标度:
+
+$$mel(f)=2595*log_{10}(1+f/700)$$
+
+在梅尔标度下，人耳对频率的感知度变成了线性关系。当频率较小时，mel随Hz变化较快；当频率很大时，mel的上升很缓慢，曲线的斜率很小。这说明人耳对低频音调的感知较灵敏；在高频时很迟钝。
+
+- 梅尔标度滤波器组：受上述启发，设计的三角滤波器，低频处滤波器密集，门限值大；高频处滤波器稀疏，门限值低。在人声领域（语音识别、说话人辨认）等领域，常使用等面积梅尔滤波器（mel-filter bank with same bank area）；在非人声领域，prefer的是等高梅尔滤波器（mel-filter bank with same bank height）。
+
+> Mel filter的生成（每个滤波器的起始频率、终止频率；等面积梅尔滤波器的最高门限值）
+
+如果已知频谱图（声谱图）$S$，可以直接映射到梅尔标度。
+
 ```python
-mfccs = np.mean(librosa.feature.mfcc(y=X, sr=sample_rate, n_mfcc=40).T, axis=0)
+D = np.abs(librosa.stft(y)) ** 2
+S = librosa.feature.melspectrogram(S=D, sr=sr)
 ```
 
-### Mel
-
-梅尔频谱
+如果输入是时序信号，那么首先计算幅度谱图（magnitude spectrogram，S**power），然后再映射到mel scale。默认```power=2```，计算结果是功率谱。
 
 ```python
-mel = np.mean(librosa.feature.melspectrogram(X, sr=sample_rate).T, axis=0)
+S = librosa.feature.melspectrogram(y=y, sr=sr, ...)
 ```
+
+<img src="https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/media/mel_spectrogram.png" width="50%" height="50%" alt="梅尔声谱图" title="梅尔声谱图" align="right" />
 
 ### Contrast
 
@@ -169,7 +194,7 @@ mel = np.mean(librosa.feature.melspectrogram(X, sr=sample_rate).T, axis=0)
 
 - 原始Spectral Contrast特征估计
 
-对原始音频分帧，每个分帧做STFT，然后分为若干子带（一般是6个，对应librosa里面的```n_bands=6```）。在每个子带内，估计Peak和Valley（一般是把FFT幅值排序，然后选择最大的几个(这个通过一个比例因子来确定从总数为N的FFT幅值中选$ \alpha \times N $个，$ \alpha $对应librosa里面的```quantile=0.02```)，取log均值作为Peak值；类似得到Valley值），然后计算差值$ SC_{k}=Peak_{k}-Valley_{k} $。最后将$ \{SC_{k}, Valley_{k}\} $作为原始Spectral Contrast特征。
+对原始音频分帧，每个分帧做STFT，然后分为若干子带（一般是6个，对应librosa里面的```n_bands=6```）。在每个子带内，估计Peak和Valley（一般是把FFT幅值排序，然后选择最大的几个(这个通过一个比例因子来确定从总数为N的FFT幅值中选$\alpha \times N$个，$\alpha$对应librosa里面的```quantile=0.02```)，取log均值作为Peak值；类似得到Valley值），然后计算差值$SC_{k}=Peak_{k}-Valley_{k}$。最后将$\{SC_{k}, Valley_{k}\}$作为原始Spectral Contrast特征。
 
 - Karhunen-Loeve Transform
 
@@ -188,8 +213,18 @@ freq=None, fmin=200.0, n_bands=6, quantile=0.02, linear=False)
 
 ### Tonnetz
 
+计算tonal centroid features(tonnetz)[<sub>[2]</sub>](#ref_2)
 
+><font size=2><div id="ref_2"></div>
+[2] Harte, C., Sandler, M., & Gasser, M. (2006). “Detecting Harmonic Change in Musical Audio.” In Proceedings of the 1st ACM Workshop on Audio and Music Computing Multimedia (pp. 21-26). Santa Barbara, CA, USA: ACM Press. doi:10.1145/1178723.1178727.</font>
 
+```python
+librosa.feature.tonnetz(y=None, sr=22050, chroma=None)
 
+# Parameter: chroma: Normalized energy for each chroma bin at each frame.
+# If None, a cqt chromagram is performed.
+# Returns: tonnetz shape:[6,t]
+```
 
+主要用于music中的和声关系表示。和声包括纯五度（fifth），大三度（major third），小三度（minor third）。tonnetz centroid features反应每个分帧在以上三个空间中的投影坐标[<sub>[B站视频]</sub>](https://www.bilibili.com/video/av32687188)。
 
