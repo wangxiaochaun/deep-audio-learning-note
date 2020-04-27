@@ -13,11 +13,21 @@
  >###### [语音数据集](#语音数据集)|[奇怪的网站](#奇怪的网站)|[开发环境](#开发环境)|[第三方库](#第三方库)
 
  ### 语音数据集
-
+ 
 | 数据集 | 描述 |
 | :--- | :--- |
 |[ESC-50 dataset](https://github.com/karolpiczak/ESC-50) | 该数据集由2000条语音组成，每条语音5秒，共分为50个语义类别（每个语义类别40条)|
 ||
+
+>###### [ESC-50](#ESC-50)
+
+ESC-50[<sup>[paper]</sup>](https://github.com/karolpiczak/paper-2015-esc-dataset/blob/master/Notebook/ESC-Dataset-for-Environmental-Sound-Classification.ipynb)共有50个类（2000条），共分5个大类：
+
+- Animals 动物（0-9）
+- 自然场景声音 Natural soundscapes & water sounds (10-19)
+- 人声（非语音） Human (non-speech) sounds (20-29)
+- 室内 Interior/Domestic sounds (30-39)
+- 室外/街道 Exterior/urban noises (40-49)
 
 ### 奇怪的网站
 

@@ -115,7 +115,7 @@ def test_mfcc():
     plt.show()
 
 
-if __name__=='__main__':
+#if __name__=='__main__':
     # extract_feature('..\\media\\example.wav')
     # test_spectrogram()
     # test_mfcc()
