@@ -62,7 +62,6 @@ def extract_feature(file_name=None):
     return mfccs, chroma, mel, contrast, tonnetz # 40+12+128+7+6=193
 
 
-
 def test_spectrogram():
     """声谱图可视化的测试程式
     """

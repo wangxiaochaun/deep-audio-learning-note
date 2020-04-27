@@ -33,9 +33,9 @@ def split_train_test(epoch):
     # print(X_train.shape) (0, 193)
     X_valid, y_valid = np.empty((0, 193)), np.empty(0)
     for i in range(1, 6):
-        X = np.load('fold'+str(epoch)+'_feature.npy')
+        X = np.load('model\\fold'+str(i)+'_feature.npy')
         # print(X.shape) (400, 193)
-        y = np.load('fold'+str(epoch)+'_labels.npy')
+        y = np.load('model\\fold'+str(i)+'_labels.npy')
         if i == epoch:
             X_valid = np.concatenate([X_valid, X], axis=0)
             y_valid = np.concatenate([y_valid, y], axis=0)
@@ -88,6 +88,6 @@ def predict(filename):
 
 
 if __name__=="__main__":
-    # test()
-    predict("..\\media\\4-99644-B-4.wav")
+    test()
+    # predict("..\\media\\4-99644-B-4.wav")
         
