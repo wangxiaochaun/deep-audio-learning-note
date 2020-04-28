@@ -1,52 +1,57 @@
 # coding=UTF-8
 # Author: Fing
 # Date: 2017-12-03
-# Modification: 2020-04-27
+# Modification: 2020-04-28
 
-import numpy as np 
+import time
+import argparse
 import keras
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
+from keras.layers import Conv1D, GlobalAveragePooling1D, MaxPooling1D
+import numpy as np 
 from sklearn.model_selection import train_test_split
 from extract_feature import parse_predict_file
 
-# 全局变量
-num_classes = 50
+
+class_count = 50 # 分类类别数
+
 
 def net():
-    """搭建多层感知机
-    """
-    # 定义网络结构
+    # 构建网络结构
     model = Sequential()
-    model.add(Dense(512, activation='relu', input_dim=193))
+    model.add(Conv1D(64, 3, activation='relu', input_shape=(193, 1)))
+    model.add(Conv1D(64, 3, activation='relu'))
+    model.add(MaxPooling1D(3))
+    model.add(Conv1D(128, 3, activation='relu'))
+    model.add(Conv1D(128, 3, activation='relu'))
+    model.add(GlobalAveragePooling1D())
     model.add(Dropout(0.5))
-    model.add(Dense(512, activation='relu'))
-    model.add(Dropout(0.5))
-    model.add(Dense(num_classes, activation='softmax'))
-
-    # 打印模型概述信息
-    model.summary()
+    model.add(Dense(class_count, activation='softmax'))
 
     return model
 
 
 def train(X_train, X_test, y_train, y_test):
-    """训练
-    """
-    # 要把labels变成one-hot向量
-    y_train = keras.utils.to_categorical(y_train-1, num_classes=num_classes)
-    y_test = keras.utils.to_categorical(y_test-1, num_classes=num_classes)
+    # 将标签变成符合keras的one-hot向量
+    y_train = keras.utils.to_categorical(y_train, num_classes=class_count)
+    y_test = keras.utils.to_categorical(y_test, num_classes=class_count)
+    # 这里Fing做了一个trick，把特征从一维变成了三维，这个思路不敢苟同？
+    X_train = np.expand_dims(X_train, axis=2)
+    X_test = np.expand_dims(X_test, axis=2)
 
-    # 读模型
+    # 编译网络
     model = net()
-    # 编译模型
-    model.compile(optimizer='rmsprop',
-                  loss='categorical_crossentropy',
-                  metrics=['accuracy'])
-    model.fit(X_train, y_train, epochs=1000, batch_size=64)
-    score, acc = model.evaluate(X_test, y_test, batch_size=32)
+    model.compile(loss='categorical_crossentropy',
+                    optimizer='rmsprop',
+                    metrics=['accuracy'])
+    start = time.time()
+    model.fit(X_train, y_train, batch_size=64, epochs=500)
+    score, acc = model.evaluate(X_test, y_test, batch_size=16)
+
     print('Test score:', score)
     print('Test accuracy:', acc)
+    print('Training took: %d seconds' % int(time.time() - start))
     
     return model, acc
 
@@ -94,11 +99,11 @@ def test():
         # 每折内切分
         # X_train, X_test, y_train, y_test = inner_fold_cross(i)
         # 用我的想法，全部数据集切分
-        # X_train, X_test, y_train, y_test = n_fold_cross(i)
-        X_train, X_test, y_train, y_test = inner_fold_cross(i)
+        X_train, X_test, y_train, y_test = n_fold_cross(i)
+        # X_train, X_test, y_train, y_test = inner_fold_cross(i)
         model, acc = train(X_train, X_test, y_train, y_test)
         # 保存模型
-        model.save('save\\keras_nn_'+str(i)+'.h5')
+        model.save('save\\keras_cnn_'+str(i)+'.h5')
         accs.append(acc)
     print("平均accuracy：%0.4f" % np.mean(accs))
 
@@ -108,14 +113,16 @@ def predict(filename):
     """
     # 提取音频特征
     features = parse_predict_file(filename)
+    features = np.expand_dims(features, axis=2)
     for i in range(1, 6):
-        model = keras.models.load_model('save\\keras_nn_'+str(i)+'.h5')
+        model = keras.models.load_model('save\\keras_cnn_'+str(i)+'.h5')
         # 直接预测结果是onehot向量，需要通过argmax输出类别
-        # predict = np.argmax(model.predict(features), axis=1)
-        predict = model.predict_classes(features)
+        predict = np.argmax(model.predict(features), axis=1)
+        # predict = model.predict_classes(features)
         print(predict)
 
 
-if __name__=="__main__":
+if __name__=='__main__':
     # test()
-    predict("..\\media\\5-9032-A-0.wav")
+    predict("..\\media\\3-65748-A-12.wav")
+

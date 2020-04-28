@@ -88,6 +88,6 @@ def predict(filename):
 
 
 if __name__=="__main__":
-    test()
-    # predict("..\\media\\4-99644-B-4.wav")
+    # test()
+    predict("..\\media\\5-9032-A-0.wav")
         
