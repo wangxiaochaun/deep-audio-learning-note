@@ -50,8 +50,8 @@ def inner_split_train_test(epoch):
     """
     按照esc-50数据集baseline，对每一折内部切分trainset和testset
     """
-    X = np.load('fold'+str(epoch)+'_feature.npy')
-    y = np.load('fold'+str(epoch)+'_labels.npy')
+    X = np.load('model\\fold'+str(epoch)+'_feature.npy')
+    y = np.load('model\\fold'+str(epoch)+'_labels.npy')
 
     # 把这一折的数据拆分成train和test（感觉其实会有问题，同一场景的不同
     # 音频有可能被分到两边
@@ -88,6 +88,6 @@ def predict(filename):
 
 
 if __name__=="__main__":
-    # test()
-    predict("..\\media\\5-9032-A-0.wav")
+    test()
+    # predict("..\\media\\5-9032-A-0.wav")
         

@@ -252,4 +252,3 @@ librosa.feature.tonnetz(y=None, sr=22050, chroma=None)
 ```
 
 主要用于music中的和声关系表示。和声包括纯五度（fifth），大三度（major third），小三度（minor third）。tonnetz centroid features反应每个分帧在以上三个空间中的投影坐标[<sub>[B站视频]</sub>](https://www.bilibili.com/video/av32687188)。
-

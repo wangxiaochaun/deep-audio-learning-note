@@ -25,6 +25,10 @@ def net():
     model.add(MaxPooling1D(3))
     model.add(Conv1D(128, 3, activation='relu'))
     model.add(Conv1D(128, 3, activation='relu'))
+    # 加深网络
+    # model.add(MaxPooling1D(3))
+    # model.add(Conv1D(256, 3, activation='relu'))
+    # model.add(Conv1D(256, 3, activation='relu'))
     model.add(GlobalAveragePooling1D())
     model.add(Dropout(0.5))
     model.add(Dense(class_count, activation='softmax'))
@@ -97,14 +101,16 @@ def test():
     for i in range(1, 6):
         print("第"+str(i)+"折交叉验证...")
         # 每折内切分
-        # X_train, X_test, y_train, y_test = inner_fold_cross(i)
+        X_train, X_test, y_train, y_test = inner_fold_cross(i)
         # 用我的想法，全部数据集切分
-        X_train, X_test, y_train, y_test = n_fold_cross(i)
+        # X_train, X_test, y_train, y_test = n_fold_cross(i)
         # X_train, X_test, y_train, y_test = inner_fold_cross(i)
         model, acc = train(X_train, X_test, y_train, y_test)
         # 保存模型
         model.save('save\\keras_cnn_'+str(i)+'.h5')
         accs.append(acc)
+    for i in range(len(accs)):
+        print(accs[i])
     print("平均accuracy：%0.4f" % np.mean(accs))
 
 
@@ -123,6 +129,6 @@ def predict(filename):
 
 
 if __name__=='__main__':
-    # test()
-    predict("..\\media\\3-65748-A-12.wav")
+    test()
+    # predict("..\\media\\3-65748-A-12.wav")
 
