@@ -46,7 +46,7 @@ ESC-50[<sup>[paper]</sup>](https://github.com/karolpiczak/paper-2015-esc-dataset
 
 ### 第三方库
 
->[soundfile](#soundfile)|[LibROSA](#LibROSA)|[Sounddevice](#Sounddevice)
+>[soundfile](#soundfile)|[LibROSA](#LibROSA)|[Sounddevice](#Sounddevice)|[pydub](#pydub)
 
 #### soundfile
 
@@ -115,6 +115,13 @@ data, samplerate = sf.read(io.BytesIO(urlopen(url).read()))
 [Example for Sounddevice](https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/code/test_sounddevice.py)
 
 [\~悠久之风\~](https://music.163.com/#/song?id=34274418)
+
+
+#### pydub
+
+pydub也是一个python音频库，高度依赖ffmpeg
+
+> Install: ```pip install pydub```
 
 
 ## 知识体系
