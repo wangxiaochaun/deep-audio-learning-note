@@ -1,6 +1,6 @@
 # ESC-50数据集的分析
 
->###### [单个音频波形图和对应声谱图的可视化](#单个音频波形图和对应声谱图的可视化)|[数据集样例的随机可视化](#数据集样例的随机可视化（以10类为例）)
+>###### [单个音频波形图和对应声谱图的可视化](#单个音频波形图和对应声谱图的可视化)|[数据集样例的随机可视化](#数据集样例的随机可视化)
 
 原始资料来自原作者的jupyter notebook<sup>[[jupyter]](#https://nbviewer.jupyter.org/github/karoldvl/paper-2015-esc-dataset/blob/master/Notebook/ESC-Dataset-for-Environmental-Sound-Classification.ipynb#Introduction)</sup>
 
@@ -12,6 +12,8 @@
 
 <img src="https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/media/display_audio.png" width="100%" height="100%" alt="单个音频波形图和对应声谱图" title="单个音频波形图和对应声谱图" align="center" />
 
-### 数据集样例的随机可视化（以10类为例）
+### 数据集样例的随机可视化
+
+以10类为例
 
 <img src="https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/media/plot_clip_overviews.png" width="100%" height="100%" alt="数据集样例" title="数据集样例" align="center" />
