@@ -10,7 +10,7 @@
 
 ### 单个音频波形图和对应声谱图的可视化
 
-<img src="https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/media/display_audio.png" width="100%" height="100%" alt="单个音频波形图和对应声谱图" title="单个音频波形图和对应声谱图" align="center" />
+<img src="https://github.com/wangxiaochaun/deep-audio-learning-note/blob/master/media/display_audio.png" width="60%" height="60%" alt="单个音频波形图和对应声谱图" title="单个音频波形图和对应声谱图" align="center" />
 
 ### 数据集样例的随机可视化
 
