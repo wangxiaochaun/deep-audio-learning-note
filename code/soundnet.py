@@ -149,7 +149,81 @@ get_22th_layer_output = K.function([model.layers[0].input],
                                     [model.layers[22].output])
 
 
-import pandas as pd 
-test = pd.read_csv('', sep=',')
 
+import pandas as pd 
+test = pd.read_csv('E:/dataset/ESC-50-master/meta/esc50.csv', sep=',')
+data = []
+list_target = []
+list_category = []
+
+for file_name, target, category, esc10 in zip(list(test['filename']),
+                                            list(test['target']),
+                                            list(test['category']),
+                                            list(test['esc10'])):
+    if esc10 == True:
+        audio = load_audio('E:/dataset/ESC-50-master/audio/' + file_name)
+        data.append(audio)
+        list_target.append(target)
+        list_category.append(category)
+
+
+get = get_22th_layer_output([data[155]])[0]
+# print('get_22th_layer_output([data[155]])[0]', get)
+# get = model.predict([data[155]])
+# print('model.predict([data[155]])', get)
+datos = np.asarray([data[155], data[155]]).reshape(1, -1, 1)
+print(datos.shape)
+
+p = model.predict(datos)
+print(p.shape)
+print(predictions_to_scenes(p))
+tensor = get.reshape(1, -1)
+print(tensor.shape)
+
+datos = np.asarray([data[5],data[5],data[5]]).reshape(1,-1,1)
+print(datos.shape)
+p = model.predict(datos)
+print(p.shape)
+print(predictions_to_scenes(p))
+tensor = get.reshape(1,-1)
+print(tensor.shape)
+
+
+def getActivations(data, number_layer):
+    '''
+    '''
+    intermediate_tensor = []
+    get_layer_output = K.function([model.layers[0].input],
+                        [model.layers[number_layer].output])
+    
+    for audio in data:
+        # get hidden representation
+        layer_output = get_layer_output([audio])[0]
+        tensor = layer_output.reshape(1, -1)
+        intermediate_tensor.append(tensor[0])
+    return intermediate_tensor
+
+
+from sklearn.manifold import TSNE
+from time import time
+
+
+def toTSNE(intermediate_tensor, target, number_layer, ax):
+    '''
+    '''
+    t0 = time()
+    # define dimension of the graph
+    tsne = TSNE(n_components=2, random_state=0)
+    # assign activation from data and obtain tsne representation
+    intermediates_tsne = tsne.fit_transform(intermediate_tensor)
+
+    ax.scatter(x=intermediates_tsne[:, 0], y=intermediates_tsne[:, 1], c=target, alpha = 0.7, cmap=plt.cm.Spectral)
+    ax.title("TSNE layer %i (time %.2fs)" % (number_layer, time() - t0))
+    ax.colorbar()
+
+
+activations = getActivations(data, 22)
+
+fig = plt.figure(figsize=(5, 5))
+toTSNE(activations, list_target, 22, plt)
 
