@@ -1,6 +1,6 @@
 ## "Envorinmental Sound Classification using Deep Learning"的复现报告
 
->###### [说明](#说明)|[实验结果](#实验结果)|[讨论](#讨论)|[下一步工作](#下一步工作)
+>###### [说明](#说明)|[实验结果](#实验结果)|[讨论](#讨论)
 
 ### 说明
 
@@ -12,7 +12,7 @@ esc-50数据集自己将2000条音频分成了5个fold；每个fold里400条，�
 
 ### 实验结果
 
->###### [SVM](#SVM)|[NN](#NN)|[CNN](#CNN)
+>###### [SVM](#SVM)|[NN](#NN)|[CNN](#CNN)|[#SoundNet](#SoundNet)
 
 #### SVM
 
@@ -39,6 +39,20 @@ esc-50数据集自己将2000条音频分成了5个fold；每个fold里400条，�
 |:--|:--|:--|:--|:--|:--|:--|
 |inner fold|0.3750|0.4687|0.4812|0.3937|0.3812|0.4200|
 |whole folds|0.4187|0.4937|0.4312|0.4875|0.3000|0.4263|
+
+#### SoundNet
+
+SoundNet这块采用的是网上复现的代码<sup>[[paper](https://github.com/camila-ud/SoundNet-keras)]</sup>。论文原始代码是Torch做的。复现的这版是Keras（Tensorflow bankend）做的，存在几个不足：
+
+1. 多模态网络这块没有给出。它直接给出了SoundNet音频网络分支的预训练模型。论文中音频和图像的KL-loss不清楚。
+
+2. 没有完全复现论文中的实验。它给的SVM并不是论文中叙述的，将SoundNet最后一层输出作为SVM的输入，而是intuitively重新训练了一个SVM
+
+*TODO*
+
+1. 对这个复现代码，实现对整个ESC-50的测试，出实验数据
+
+2. 在Github上找别的SoundNet的代码，看看有没有更详细的
 
 ### 讨论
 
