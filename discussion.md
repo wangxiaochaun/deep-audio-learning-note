@@ -1,10 +1,10 @@
-## "Envorinmental Sound Classification using Deep Learning"的复现报告
+# 语音识别实验报告
 
->###### [说明](#说明)|[实验结果](#实验结果)|[讨论](#讨论)
+>#### [说明](#说明)|[实验结果](#实验结果)|[讨论](#讨论)|[下一步工作](#下一步工作)
 
 ### 说明
 
-复现的工作是[github上audio-classification](https://github.com/mtobeiyf/audio-classification)。因为这个project的源码比较清楚，所以复现难度几乎为0. 所做的贡献：改写了数据集读取部分，因为原始代码是为esc-10工作的，而esc现在只有esc-50数据集了。
+SVM,NN和CNN复现的基础是[github上audio-classification](https://github.com/mtobeiyf/audio-classification)。因为这个project的源码比较清楚，所以复现难度几乎为0. 所做的贡献：改写了数据集读取部分，因为原始代码是为esc-10工作的，而esc现在只有esc-50数据集了。
 
 关于n折交叉验证这块，目前有待商榷：
 
@@ -12,7 +12,7 @@ esc-50数据集自己将2000条音频分成了5个fold；每个fold里400条，�
 
 ### 实验结果
 
->###### [SVM](#SVM)|[NN](#NN)|[CNN](#CNN)|[#SoundNet](#SoundNet)
+>###### [SVM](#SVM)|[NN](#NN)|[CNN](#CNN)|[SoundNet](#SoundNet)
 
 #### SVM
 
@@ -42,26 +42,33 @@ esc-50数据集自己将2000条音频分成了5个fold；每个fold里400条，�
 
 #### SoundNet
 
-SoundNet这块采用的是网上复现的代码<sup>[[paper](https://github.com/camila-ud/SoundNet-keras)]</sup>。论文原始代码是Torch做的。复现的这版是Keras（Tensorflow bankend）做的，存在几个不足：
+SoundNet这块采用的是代码<sup>[[paper](https://github.com/camila-ud/SoundNet-keras)]</sup>。论文原始代码是Torch做的。复现是Keras（Tensorflow bankend）做的。
 
-1. 多模态网络这块没有给出。它直接给出了SoundNet音频网络分支的预训练模型。论文中音频和图像的KL-loss不清楚。
 
-2. 没有完全复现论文中的实验。它给的SVM并不是论文中叙述的，将SoundNet最后一层输出作为SVM的输入，而是intuitively重新训练了一个SVM
+|交叉验证模式|1|2|3|4|5|Avg.|
+|:--|:--|:--|:--|:--|:--|:--|
+|inner fold|0.5000|0.6625|0.7375|0.6875|0.5625|0.6300|
+|whole folds|0.6150|0.9775|0.9975|1.0000|1.0000|0.9180|
 
-*TODO*
-
-1. 对这个复现代码，实现对整个ESC-50的测试，出实验数据
-
-2. 在Github上找别的SoundNet的代码，看看有没有更详细的
 
 ### 讨论
 
 可以看到，test性能依次上升，但是还差很多。另外inner fold方法效果差于whole folds方法。另外，NN和CNN方法在train的过程中，**可能**出现过拟合（train accuracy接近1，但是test accuracy很低）
 
-那么是不是可以认为模型拟合能力不足呢？可以尝试更深的网络？
+那么是不是可以认为模型拟合能力不足呢(相对样本数来说)？可以尝试更深的网络？
 
 - 在cnn模型中添加了一组卷积层(maxpooling-Conv255-Conv256)：性能下降
 
 |交叉验证模式|1|2|3|4|5|Avg.|
 |:--|:--|:--|:--|:--|:--|:--|
 |inner fold|0.3125|0.4000|0.4187|0.4000|0.3249|0.3712|
+
+SoundNet这块，多模态网络这块没有给出。直接使用SoundNet音频网络分支的预训练模型。论文中音频和图像的KL-loss不清楚。
+
+### 下一步工作
+
+1. 研究多模态特征的迁移问题
+
+2. 丰富数据的可视化形式
+
+3. 调研新的ASR网络
