@@ -1,10 +1,15 @@
 # 语音识别实验报告
 
->#### [说明](#说明)|[实验结果](#实验结果)|[讨论](#讨论)|[下一步工作](#下一步工作)
+>### [摘要](#摘要)|[说明](#说明)|[实验结果](#实验结果)|[讨论](#讨论)|[下一步工作](#下一步工作)
+
+### 摘要
+
+特征提取这里主要使用了MFCC、Mel声谱图、Contrast声谱图和Toznet特征等。分类方法主要使用了SVM，NN，CNN以及迁移学习网络SoundNet。
+
 
 ### 说明
 
-SVM,NN和CNN复现的基础是[github上audio-classification](https://github.com/mtobeiyf/audio-classification)。因为这个project的源码比较清楚，所以复现难度几乎为0. 所做的贡献：改写了数据集读取部分，因为原始代码是为esc-10工作的，而esc现在只有esc-50数据集了。
+SVM,NN和CNN复现的基础是[github上audio-classification](https://github.com/mtobeiyf/audio-classification)。SoundNet这块采用的是代码<sup>[[paper](https://github.com/camila-ud/SoundNet-keras)]</sup>。论文原始代码是Torch做的。复现是Keras（Tensorflow bankend）做的。
 
 关于n折交叉验证这块，目前有待商榷：
 
@@ -12,7 +17,9 @@ esc-50数据集自己将2000条音频分成了5个fold；每个fold里400条，�
 
 ### 实验结果
 
->###### [SVM](#SVM)|[NN](#NN)|[CNN](#CNN)|[SoundNet](#SoundNet)
+实验结果如下所示。我们以MFCC、Mel声谱图、Contrast声谱图和Toznet特征作为输入，使用不同的分类方法，在ESC-50上进行了测试。
+
+>##### [SVM](#SVM)|[NN](#NN)|[CNN](#CNN)|[SoundNet](#SoundNet)
 
 #### SVM
 
@@ -42,8 +49,9 @@ esc-50数据集自己将2000条音频分成了5个fold；每个fold里400条，�
 
 #### SoundNet
 
-SoundNet这块采用的是代码<sup>[[paper](https://github.com/camila-ud/SoundNet-keras)]</sup>。论文原始代码是Torch做的。复现是Keras（Tensorflow bankend）做的。
+SoundNet网络结果如图所示:
 
+![img](media\\sound.jpeg)
 
 |交叉验证模式|1|2|3|4|5|Avg.|
 |:--|:--|:--|:--|:--|:--|:--|
@@ -53,22 +61,17 @@ SoundNet这块采用的是代码<sup>[[paper](https://github.com/camila-ud/Sound
 
 ### 讨论
 
-可以看到，test性能依次上升，但是还差很多。另外inner fold方法效果差于whole folds方法。另外，NN和CNN方法在train的过程中，**可能**出现过拟合（train accuracy接近1，但是test accuracy很低）
+可以看到，在ESC-50上，SoundNet表现最好。其余方法性能和SoundNet相比差异较为明显。最为关键的是，SoundNet实际上是一个迁移学习网络，是从ImageNet等图像识别数据集上训练并迁移到音频上的。这印证了一个观点：即语音信号相对图像信号来说，复杂度要低很多。另外inner fold方法效果差于whole folds方法。这个主要原因应该是数据集容量问题，inner fold数据集容量较小，训练过程很容易出现过拟合。
 
-那么是不是可以认为模型拟合能力不足呢(相对样本数来说)？可以尝试更深的网络？
-
-- 在cnn模型中添加了一组卷积层(maxpooling-Conv255-Conv256)：性能下降
+为验证数据集容量导致过拟合，我们尝试增加卷积层组，在cnn模型中添加了一组卷积层(maxpooling-Conv255-Conv256)。在ESC-50上性能下降：
 
 |交叉验证模式|1|2|3|4|5|Avg.|
 |:--|:--|:--|:--|:--|:--|:--|
 |inner fold|0.3125|0.4000|0.4187|0.4000|0.3249|0.3712|
 
-SoundNet这块，多模态网络这块没有给出。直接使用SoundNet音频网络分支的预训练模型。论文中音频和图像的KL-loss不清楚。
+
+实验结果验证了我们的假设，即网络出现了过拟合。
 
 ### 下一步工作
 
-1. 研究多模态特征的迁移问题
-
-2. 丰富数据的可视化形式
-
-3. 调研新的ASR网络
+SoudNet在ESC-50上达到了92%的识别准确率，但是仍有提升空间。但是，考虑到数据集样本数有限，简单通过增加网络深度不能解决这一问题。因此，考虑从两个方面解决这一问题：一方面，进一步利用迁移学习，从其他数据集中获取有效的先验；一方面，对数据集中的音频文件，考虑采用分帧的方式将其看作时间序列，采用RNN/LSTM的方法取代传统的音频特征表示方式，增加可训练参数，提高模型的拟合能力。
